@@ -1,0 +1,45 @@
+package project;
+import java.util.Scanner;
+
+public class DabloonGame {
+	private static Scanner scan = new Scanner(System.in);
+	private int dabloonWallet;
+
+	public DabloonGame(){
+		Traveller traveller = new Traveller();
+		Encounters en = new Encounters();
+		
+		System.out.println("\n########################################################################################");
+		System.out.println("\nHello Traveller! I see you're new to this world.");
+		System.out.println("\nMay I know your name?.");
+		System.out.print("\nEnter your name: ");
+		String name = scan.nextLine();
+
+		Traveller.setName(name);
+		System.out.println("\n########################################################################################");
+		System.out.println("\nHello, " + Traveller.getName() + ".");
+		setDabloons(traveller.RandomDabloons());
+		dabloonWallet = getDabloons();
+		
+		en.encounters(dabloonWallet);
+		
+	}
+	
+
+	public int getDabloons(){
+		return dabloonWallet;
+	}
+
+	public void setDabloons(int dabloonWallet) {
+		this.dabloonWallet = dabloonWallet;
+	}
+
+	public static void main(String[] args){
+		DabloonGame game = new DabloonGame();
+
+		System.out.println("Current dabloons: " + game.dabloonWallet);
+		
+	}
+
+
+}
