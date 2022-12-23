@@ -1,18 +1,16 @@
 package project;
+import java.util.Random;
 import java.util.Scanner;
 
-public class DabloonGame {
+public class DabloonGame extends Encounters {
 	private static Scanner scan = new Scanner(System.in);
 	private int dabloonWallet;
+	private int event;
 
 	public DabloonGame(){
 		Traveller traveller = new Traveller();
-		Encounters en = new Encounters();
-		
-		System.out.println("\n########################################################################################");
-		System.out.println("\nHello Traveller! I see you're new to this world.");
-		System.out.println("\nMay I know your name?.");
-		System.out.print("\nEnter your name: ");
+		System.out.println("\n########################################################################################"
+				+ "\nHello Traveller! I see you're new to this world.\nMay I know your name?.\nEnter your name: ");
 		String name = scan.nextLine();
 
 		Traveller.setName(name);
@@ -21,8 +19,76 @@ public class DabloonGame {
 		setDabloons(traveller.RandomDabloons());
 		dabloonWallet = getDabloons();
 		
-		en.encounters(dabloonWallet);
+		encounters(dabloonWallet);
 		
+	}
+	
+	public void encounters(int dabloonWallet){
+
+
+		Boolean isLoop = true;
+
+
+		while(dabloonWallet < 2000 && isLoop == true) {
+			System.out.println("\n########################################################################################");
+			System.out.println("\nDo you wish to travel?");
+			System.out.println("\nYes / No");
+			String ans = scan.nextLine();
+			String choice = ans.toLowerCase();
+
+			if(ans.equalsIgnoreCase("no")) {
+				isLoop = false;
+			}
+			else {
+
+				switch(choice) {
+				case "yes":{
+					Random rEvent = new Random(); 
+					event = rEvent.nextInt(1,3); 
+
+					switch(event){
+					case 1: {
+						dabloonWallet = task(dabloonWallet);
+						System.out.println("\nJust exited task heres how much we've earned: " + dabloonWallet);
+						continue;
+					}
+					case 2: {
+						dabloonWallet = merchant(dabloonWallet);
+						continue;
+
+					}
+					case 3: {//thieves
+
+						Random stolen = new Random(); 
+						int stolenDabloons = stolen.nextInt(50);
+						if(dabloonWallet > stolenDabloons) {
+
+							System.out.println("Oh no! There are thieves!!");
+							System.out.println("Dabloons is decreased by: " + stolenDabloons);
+							dabloonWallet -= stolenDabloons;
+							System.out.println(dabloonWallet + " after encountering thieves this is left.");
+							continue;
+						}
+
+					}
+					}
+
+				}
+				case "no":{
+					isLoop = false;
+				}
+				case "inventory" :{
+					Traveller inv = new Traveller();
+					inv.info();//
+				}
+				default:{
+					break;
+				}
+				}
+
+			}
+		}
+
 	}
 	
 
