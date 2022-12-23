@@ -1,0 +1,142 @@
+package maze;
+import java.util.*;
+public class Maze {
+
+	public static void main(String[] args) {
+		String[][] mazer = {{"@","@","@","@","@"},
+				{"i"," ","@"," ","x"},
+				{"@"," ","@"," ","@"},
+				{"@"," "," "," "," "},
+				{"@","@","@"," ","@"}};
+		showerFunction(mazer);
+		String start = "i";
+		int signal = 0;
+		
+		Scanner askInput = new Scanner (System.in);
+		
+		System.out.println("\nup down right or left");
+		
+		
+		
+
+		while (signal == 0) {
+			String store = askInput.nextLine();
+			if (store.equalsIgnoreCase("up")) {
+				int finder[] = linearSearch(mazer, start);
+				if (finder[0]==0) {
+					System.out.print("out of bounds, bitch!\n");
+					
+				}
+				else if (mazer[(finder[0])-1][finder[1]] =="@") {
+					System.out.print("you hit a wall, bitch!\n");
+					
+				}
+				else if (mazer[(finder[0])-1][finder[1]] =="x") {
+					System.out.print("Congrats, bitch!\n");
+					signal++;
+					
+				}
+				else {
+					mazer[(finder[0])-1][finder[1]] = "i";
+					mazer[finder[0]][finder[1]] = " ";
+					showerFunction(mazer);
+				}
+			}
+			else if (store.equalsIgnoreCase("down")) {
+				int finder[] = linearSearch(mazer, start);
+				if (finder[0]+1==mazer.length) {
+					System.out.print("out of bounds, bitch!\n");
+					
+				}
+				else if (mazer[(finder[0])+1][finder[1]] =="@") {
+					System.out.print("you hit a wall, bitch!\n");
+					
+				}
+				else if (mazer[(finder[0])+1][finder[1]] =="x") {
+					System.out.print("Congrats, bitch!\n");
+					signal++;
+					
+				}
+				else {
+					mazer[(finder[0])+1][finder[1]] = "i";
+					mazer[finder[0]][finder[1]] = " ";
+					showerFunction(mazer);
+				}
+			}	
+			else if (store.equalsIgnoreCase("left")) {
+				int finder[] = linearSearch(mazer, start);
+				if (finder[1]==0) {
+					System.out.print("out of bounds, bitch!\n");
+					
+				}
+				else if (mazer[(finder[0])][finder[1]-1] =="@") {
+					System.out.print("you hit a wall, bitch!\n");
+					
+				}
+				else if (mazer[finder[0]][finder[1]-1] =="x") {
+					System.out.print("Congrats, bitch!\n");
+					signal++;
+					
+				}
+				else {
+					mazer[finder[0]][finder[1]-1] = "i";
+					mazer[finder[0]][finder[1]] = " ";
+					showerFunction(mazer);
+				}
+			}
+			else if (store.equalsIgnoreCase("right")) {
+				int finder[] = linearSearch(mazer, start);
+				if (finder[1]+1==mazer[finder[1]].length) {
+					System.out.print("out of bounds, bitch!\n");
+					
+				}
+				else if (mazer[(finder[0])][finder[1]+1] =="@") {
+					System.out.print("you hit a wall, bitch!\n");
+					
+				}
+				else if (mazer[finder[0]][finder[1]+1] =="x") {
+					System.out.print("Congrats, bitch!\n");
+					signal++;
+					
+				}
+				else {
+					mazer[finder[0]][finder[1]+1] = "i";
+					mazer[finder[0]][finder[1]] = " ";
+					showerFunction(mazer);
+				}
+			}
+			else {
+				System.out.print("ERROR: invalid input\n");
+			}
+		}
+		
+		askInput.close();
+		
+	}
+	static void showerFunction(String[][]mazer) {
+		int i, j;
+		for (i = 0; i<mazer.length; i++) {
+			System.out.print ("\n");
+			for (j = 0; j<mazer[i].length; j++){
+				System.out.print (mazer[i][j]);
+			}
+		}
+		System.out.print("\n");
+	}
+	static int [] linearSearch(String[][] mazer, String start)
+    {
+        for (int i = 0; i < mazer.length; i++) {
+            for (int j = 0; j < mazer[i].length; j++) {
+                if (mazer[i][j] == start) {
+                    return new int [] { i, j };
+                }
+            }
+        }
+        return new int [] { -1, -1 };
+    }
+	
+
+
+	
+
+}
