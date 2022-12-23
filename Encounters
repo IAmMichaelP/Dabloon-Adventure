@@ -3,82 +3,15 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Random;
 
+
+
+
 public class Encounters {
 	private static Scanner scan = new Scanner(System.in);
 	ArrayList<String> items = new ArrayList<String>();
-	private int event;
+	
 
-
-	public void encounters(int dabloonWallet){
-
-
-		Boolean loop = true;
-
-
-		while(dabloonWallet < 2000 && loop == true) {
-			System.out.println("\n########################################################################################");
-			System.out.println("\nDo you wish to travel?");
-			System.out.println("\nYes / No");
-			String ans = scan.nextLine();
-			String choice = ans.toLowerCase();
-
-			if(ans.equalsIgnoreCase("no")) {
-				loop = false;
-			}
-			else {
-
-				switch(choice) {
-				case "yes":{
-					Random rEvent = new Random(); 
-					event = rEvent.nextInt(1,3); 
-
-					switch(event){
-					case 1: {
-						task(dabloonWallet);
-						System.out.println("\nJust exited task heres how much we've earned: " + dabloonWallet);
-						continue;
-					}
-					case 2: {
-						merchant(dabloonWallet);
-						continue;
-
-					}
-					case 3: {//thieves
-
-						Random stolen = new Random(); 
-						int stolenDabloons = stolen.nextInt(50);
-						if(dabloonWallet > stolenDabloons) {
-
-							System.out.println("Oh no! There are thieves!!");
-							System.out.println("Dabloons is decreased by: " + stolenDabloons);
-							dabloonWallet -= stolenDabloons;
-							System.out.println(dabloonWallet + " after encountering thieves this is left.");
-							continue;
-						}
-
-					}
-					}
-
-				}
-				case "no":{
-					loop = false;
-				}
-				case "inventory" :{
-					Traveller inv = new Traveller();
-					inv.info();//
-				}
-				default:{
-					break;
-				}
-				}
-
-			}
-		}
-
-	}
-
-	public void task(int dabloonWallet){
-
+	public int task(int dabloonWallet){
 
 		Random task = new Random(); 
 		int taskNum = task.nextInt(1,6);
@@ -96,6 +29,7 @@ public class Encounters {
 				System.out.println("Elder Cat: Thank you for helping, here take this 70 dabloons.");
 				dabloonWallet += 70;
 				System.out.println("Earned: " + dabloonWallet);
+				
 
 			}
 			else {
@@ -203,13 +137,13 @@ public class Encounters {
 				System.out.println("\nOffer rejected.");
 			}
 		}
-
+		return dabloonWallet;
 
 	}
 
 
 
-	public void merchant(int dabloonWallet) {
+	public int merchant(int dabloonWallet) {
 		System.out.println("\n########################################################################################");
 		System.out.println("Encountered a shop along the way..");
 		Boolean buy = true;
@@ -252,6 +186,7 @@ public class Encounters {
 				buy = false;
 			}
 		}
+		return dabloonWallet;
 
 
 	}
