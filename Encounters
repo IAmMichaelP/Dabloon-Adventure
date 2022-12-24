@@ -23,17 +23,24 @@ abstract class Encounters {
 			}
 	}
 	
-	public int randomizer() {
+	public int randomizer(int dabloonWallet, int maxTaskNum) {
 		Random task = new Random(); 
-		int taskNum = task.nextInt(6)+1;
-		return taskNum;
+		int taskNum = task.nextInt(maxTaskNum)+1;
+		System.out.println("taskNum is "+taskNum);
+		if (dabloonWallet < 100 && taskNum == 6) {
+
+			return maxTaskNum;
+		}else {
+
+			return taskNum;
+		}
+		
 	}
 
 	
 	public int task(int dabloonWallet){
-
-		Random task = new Random(); 
-		int taskNum = task.nextInt(1,6)+1;
+		int maxTaskNum = 7;
+		int taskNum = randomizer(dabloonWallet, maxTaskNum);
 
 		if(taskNum == 1) {//task1
 			System.out.println("\n########################################################################################");
@@ -93,7 +100,7 @@ abstract class Encounters {
 			System.out.println("\n########################################################################################");
 			System.out.println("NPC offering Hot Soup!");
 			System.out.println("Accept offer?");
-			System.out.println("\n(Enter 1 to help, any other key to decline)");
+			System.out.println("\n(Enter 1 to accept, any other key to decline)");
 			String answer = scan.nextLine();
 			int parsedAnswer = answerParser(answer);
 
