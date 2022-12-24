@@ -3,8 +3,8 @@ import java.util.Random;
 
 
 public class Traveller{
-	protected static String name;
 	
+	protected static String name;
 	private int startingDabloons;
 	
 	 public static String getName()   
@@ -25,5 +25,5 @@ public class Traveller{
 		return dabloonWallet;	
 
 	}
-	
+
 }
