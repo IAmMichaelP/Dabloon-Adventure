@@ -80,8 +80,9 @@ public class DabloonGame extends Encounters {
 						case 3: {//thieves
 
 							Random stolen = new Random(); 
-							int stolenDabloons = stolen.nextInt(10,50);
-					
+							int stolenDabloons = stolen.nextInt(10,50);//
+
+							System.out.println("\n########################################################################################");
 							System.out.println("\nOh no! There are thieves!!");
 							System.out.println("Dabloons is decreased by: " + stolenDabloons);
 							dabloonWallet -= stolenDabloons;
@@ -175,6 +176,8 @@ public class DabloonGame extends Encounters {
 
 
 			while(buy == true) {
+
+				System.out.println("\n########################################################################################");
 				System.out.println("\nWELCOME TO THE SHOP");
 				System.out.println("Attendant: What item would you like to buy? We have a few...");
 				System.out.println("\nStore inventory: ");
@@ -185,7 +188,7 @@ public class DabloonGame extends Encounters {
 						+"\nEnter designated number to buy the item, any other key to leave." + "\n[1]Water  [2]Map  [3]Torch   [4]Blanket  [5]Tent [0]Exit shop");
 			    System.out.println("\nYour inventory: ");
 			    for (String item : userInventory.keySet()) {
-			      System.out.println(item + userInventory.get(item));
+			      System.out.println(item + " "+ userInventory.get(item));
 			    }
 				String answer = scan.nextLine();
 				int parsedAnswer = merchantAnswerParser(answer);
