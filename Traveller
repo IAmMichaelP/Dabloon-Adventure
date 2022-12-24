@@ -1,0 +1,197 @@
+package project;
+import java.util.Map;
+import java.util.Random;
+import java.util.Scanner;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+
+
+
+public class Traveller{
+	
+	protected static String name;
+	private int startingDabloons;
+	private static Scanner scan = new Scanner(System.in);
+	private Map<String, Integer> storeInventory;
+	private Map<String, Integer> userInventory;
+	public Traveller () {
+	    // Create the store inventory
+	    storeInventory = new LinkedHashMap<>();
+	    storeInventory.put("water", 5);
+	    storeInventory.put("map", 5);
+	    storeInventory.put("torch", 5);
+	    storeInventory.put("blanket", 5);
+	    storeInventory.put("tent", 5);
+	    // Create the user's inventory
+	    userInventory = new HashMap<>();
+	    scan = new Scanner(System.in);
+	}
+	
+	
+public class Merchant {
+		
+		public int merchantAnswerParser (String answer) {
+			try {
+				  int num = Integer.parseInt(answer);
+				  return num;
+				} catch (NumberFormatException e) {
+				  System.out.println("Invalid number format");
+				  return 6;
+				}
+		}
+		
+		public void inventoryPresenter () {
+			System.out.println("\nYour inventory: ");
+		 
+
+		    for (Map.Entry<String, Integer> entry : userInventory.entrySet()) {
+
+	            String key = entry.getKey();
+	            int value = entry.getValue();
+	            System.out.printf(" %-10s - %3dx\n", key, value);
+	        }
+		    
+		}
+		
+		public void storePresenter () {
+			System.out.println("\nStore inventory: ");
+			int itemNumber = 0;
+			int[] price = {10, 15, 40, 80, 200};
+			for (Map.Entry<String, Integer> entry : storeInventory.entrySet()) {
+	            itemNumber++;
+	            String key = entry.getKey();
+	            int value = entry.getValue();
+	            System.out.printf("[" + itemNumber + "] d" + price[itemNumber-1] + " %-10s - %3dx\n", key, value);
+	        }
+			
+		}
+		
+		public int merchant(int dabloonWallet) {
+		    
+
+			System.out.println("\n########################################################################################");
+			System.out.println("Encountered a shop along the way..");
+			Boolean buy = true;
+
+			
+
+			while(buy == true) {
+				System.out.println("\nWELCOME TO THE SHOP");
+				System.out.println("Attendant: What item would you like to buy? We have a few...");
+
+				storePresenter();
+				inventoryPresenter();
+			    
+				System.out.println("\nWallet: " + dabloonWallet
+						+"(\nEnter designated number to buy the item, any other key to leave)");
+				String answer = scan.nextLine();
+				int parsedAnswer = merchantAnswerParser(answer);
+
+				if (dabloonWallet < 10) {
+					System.out.println("You don't have enough amount of dabloons left to buy anything");
+					continue;
+				}
+				else if(parsedAnswer == 1 && storeInventory.containsKey("water")) {
+					System.out.println("\nWater is added to inventory.");
+					// Add the item to the user's inventory
+			        int quantity = userInventory.getOrDefault("water", 0);
+			        userInventory.put("Water", quantity + 1);
+
+			        // Remove the item from the store inventory
+			        quantity = storeInventory.get("water");
+			        if (quantity > 1) {
+			          storeInventory.put("water", quantity - 1);
+			        } else {
+			          storeInventory.remove("water");
+			        }
+					dabloonWallet -= 10;
+				}
+				else if(parsedAnswer == 2 && storeInventory.containsKey("map")) {
+					System.out.println("\nMap is added to inventory.");
+					// Add the item to the user's inventory
+			        int quantity = userInventory.getOrDefault("map", 0);
+			        userInventory.put("map", quantity + 1);
+
+			        // Remove the item from the store inventory
+			        quantity = storeInventory.get("map");
+			        if (quantity > 1) {
+			          storeInventory.put("map", quantity - 1);
+			        } else {
+			          storeInventory.remove("map");
+			        }
+					dabloonWallet -= 15;
+				}
+				else if(parsedAnswer == 3 && storeInventory.containsKey("torch")) {
+					System.out.println("\nTorch is added to inventory.");
+					// Add the item to the user's inventory
+			        int quantity = userInventory.getOrDefault("torch", 0);
+			        userInventory.put("torch", quantity + 1);
+
+			        // Remove the item from the store inventory
+			        quantity = storeInventory.get("torch");
+			        if (quantity > 1) {
+			          storeInventory.put("torch", quantity - 1);
+			        } else {
+			          storeInventory.remove("torch");
+			        }
+					dabloonWallet -= 40;
+				}
+				else if(parsedAnswer == 4 && storeInventory.containsKey("blanket")) {
+					System.out.println("\nBlanket is added to inventory.");
+					// Add the item to the user's inventory
+			        int quantity = userInventory.getOrDefault("blanket", 0);
+			        userInventory.put("blanket", quantity + 1);
+
+			        // Remove the item from the store inventory
+			        quantity = storeInventory.get("blanket");
+			        if (quantity > 1) {
+			          storeInventory.put("blanket", quantity - 1);
+			        } else {
+			          storeInventory.remove("blanket");
+			        }
+					dabloonWallet -= 80;
+				}
+				else if(parsedAnswer == 5 && storeInventory.containsKey("tent")) {
+					System.out.println("\nTent is added to inventory.");
+					// Add the item to the user's inventory
+			        int quantity = userInventory.getOrDefault("tent", 0);
+			        userInventory.put("tent", quantity + 1);
+
+			        // Remove the item from the store inventory
+			        quantity = storeInventory.get("tent");
+			        if (quantity > 1) {
+			          storeInventory.put("tent", quantity - 1);
+			        } else {
+			          storeInventory.remove("tent");
+			        }
+					dabloonWallet -= 200;
+				}
+				else {
+					System.out.println("You left the shop.");
+					buy = false;
+				}
+			}return dabloonWallet;
+		}
+	}
+	
+	 public static String getName()   
+     {  
+         return name;  
+     }  
+
+	public static void setName(String n) {
+		name = n;
+	}
+
+	public int RandomDabloons(int dabloonWallet) {
+
+		Random rand = new Random(); 
+		startingDabloons = rand.nextInt(1, 100); 
+		System.out.println("Here have this "+ startingDabloons + " dabloons to start your journey.");
+		dabloonWallet += startingDabloons;
+		return dabloonWallet;	
+
+	}
+
+
+}
