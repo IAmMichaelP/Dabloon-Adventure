@@ -1,197 +1,158 @@
-package project;
+package cmsc22.final_project;
 import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 
-
-
-public class Traveller{
-	
-	protected static String name;
+/**
+ * The Traveller class represents the user in the game. 
+ * It has methods for managing the user's dabloons and inventory, and for interacting with the game, 
+ * and because of that, the inner class Merchant was appended in the Traveller class.
+ */
+public class Traveller{	
+	// Instantiated fields
+    protected static String userName;
 	private int startingDabloons;
+	private int dabloonWallet;
 	private static Scanner scan = new Scanner(System.in);
-	private Map<String, Integer> storeInventory;
 	private Map<String, Integer> userInventory;
+	
+	
+	// Constructor sets up the initial state of the user; their inventory 
 	public Traveller () {
-	    // Create the store inventory
-	    storeInventory = new LinkedHashMap<>();
-	    storeInventory.put("water", 5);
-	    storeInventory.put("map", 5);
-	    storeInventory.put("torch", 5);
-	    storeInventory.put("blanket", 5);
-	    storeInventory.put("tent", 5);
 	    // Create the user's inventory
 	    userInventory = new HashMap<>();
-	    scan = new Scanner(System.in);
 	}
 	
 	
-public class Merchant {
+	public static void setName(String n) {
+		userName = n;
+	}
+	
+	public static String getName()   
+    {  
+        return userName;  
+    }  
+
+	public void setDabloons(int dabloonWallet) {
+		this.dabloonWallet = dabloonWallet;
+	}
+	
+	public int getDabloons(){
+		return dabloonWallet;
+	}
+	
+	// Generates a random number of dabloons and adds them to the user's dabloon wallet
+	public int randomizeNumber() {
+		Random randomDabloons = new Random(); 
+		startingDabloons = randomDabloons.nextInt(1, 100); 
+		System.out.println("Here have this "+ startingDabloons + " dabloons to start your journey.");
+		int dabloonWallet = startingDabloons;
+		return dabloonWallet;	
+	}
+	
+	/**
+	 * The Merchant class represents the merchant in the game. 
+	 * It allows the user to view and purchase items and updates their inventory and dabloon wallet accordingly.
+	 */
+	public class Merchant {
 		
-		public int merchantAnswerParser (String answer) {
-			try {
-				  int num = Integer.parseInt(answer);
-				  return num;
+		/**
+		* Converts user input string to an integer, or returns a default value if input is invalid.
+		* 
+		* @param answer user input string to be parsed
+		* @return integer value of input string, or default value if input is invalid
+		*/
+		public int parseAnswer (String answer) {
+		    try {
+		    	    int integerAnswer = Integer.parseInt(answer);
+				    return integerAnswer;
 				} catch (NumberFormatException e) {
-				  System.out.println("Invalid number format");
-				  return 6;
+				    System.out.println("Invalid number format");
+				    return 6;
 				}
 		}
 		
 		public void inventoryPresenter () {
 			System.out.println("\nYour inventory: ");
-		 
-
 		    for (Map.Entry<String, Integer> entry : userInventory.entrySet()) {
-
 	            String key = entry.getKey();
 	            int value = entry.getValue();
 	            System.out.printf(" %-10s - %3dx\n", key, value);
-	        }
-		    
+	        } 
 		}
 		
-		public void storePresenter () {
-			System.out.println("\nStore inventory: ");
-			int itemNumber = 0;
-			int[] price = {10, 15, 40, 80, 200};
-			for (Map.Entry<String, Integer> entry : storeInventory.entrySet()) {
-	            itemNumber++;
-	            String key = entry.getKey();
-	            int value = entry.getValue();
-	            System.out.printf("[" + itemNumber + "] d" + price[itemNumber-1] + " %-10s - %3dx\n", key, value);
-	        }
+		/**
+		* This method lets the user interact with the merchant and make purchases. The user can view a list of items for sale and choose an item to buy.
+		* The method updates the user's inventory and dabloon wallet to reflect the purchases.
+		* 
+		* @param dabloonWallet the current number of dabloons the user has
+		* @return the updated number of dabloons after making purchases
+		*/
+		public int sell(int dabloonWallet) {
+		    System.out.println("\n########################################################################################"
+					+ "\nEncountered a shop along the way..");
+			Boolean isBuying = true;
 			
-		}
-		
-		public int merchant(int dabloonWallet) {
-		    
-
-			System.out.println("\n########################################################################################");
-			System.out.println("Encountered a shop along the way..");
-			Boolean buy = true;
-
-			
-
-			while(buy == true) {
-				System.out.println("\nWELCOME TO THE SHOP");
-				System.out.println("Attendant: What item would you like to buy? We have a few...");
-
-				storePresenter();
+			while(isBuying == true) {
+			    System.out.println("\nWELCOME TO THE SHOP"
+						+ "\nAttendant: What item would you like to buy? We have a few..."
+						+ "\nItems for sale: "
+						+ "\n[1]Water     --- 10 dabloons\n[2]Map       --- 15 dabloons"
+						+ "\n[3]Torch     --- 40 dabloons\n[4]Blanket   --- 80 dabloons\n[5]Tent      --- 200 dabloons"
+						+ "\n(Enter designated number to buy the item, any other key to leave.)");
 				inventoryPresenter();
-			    
 				System.out.println("\nWallet: " + dabloonWallet
 						+"(\nEnter designated number to buy the item, any other key to leave)");
 				String answer = scan.nextLine();
-				int parsedAnswer = merchantAnswerParser(answer);
+				int parsedAnswer = parseAnswer(answer);
 
 				if (dabloonWallet < 10) {
-					System.out.println("You don't have enough amount of dabloons left to buy anything");
+				    System.out.println("You don't have enough amount of dabloons left to buy anything");
 					continue;
 				}
-				else if(parsedAnswer == 1 && storeInventory.containsKey("water")) {
+				else if(parsedAnswer == 1 ) {
 					System.out.println("\nWater is added to inventory.");
 					// Add the item to the user's inventory
-			        int quantity = userInventory.getOrDefault("water", 0);
-			        userInventory.put("Water", quantity + 1);
-
-			        // Remove the item from the store inventory
-			        quantity = storeInventory.get("water");
-			        if (quantity > 1) {
-			          storeInventory.put("water", quantity - 1);
-			        } else {
-			          storeInventory.remove("water");
-			        }
+					int quantity = userInventory.getOrDefault("water", 0);
+					userInventory.put("water", quantity + 1);
 					dabloonWallet -= 10;
 				}
-				else if(parsedAnswer == 2 && storeInventory.containsKey("map")) {
+				else if(parsedAnswer == 2 ) {
 					System.out.println("\nMap is added to inventory.");
 					// Add the item to the user's inventory
 			        int quantity = userInventory.getOrDefault("map", 0);
 			        userInventory.put("map", quantity + 1);
-
-			        // Remove the item from the store inventory
-			        quantity = storeInventory.get("map");
-			        if (quantity > 1) {
-			          storeInventory.put("map", quantity - 1);
-			        } else {
-			          storeInventory.remove("map");
-			        }
 					dabloonWallet -= 15;
 				}
-				else if(parsedAnswer == 3 && storeInventory.containsKey("torch")) {
+				else if(parsedAnswer == 3 ) {
 					System.out.println("\nTorch is added to inventory.");
 					// Add the item to the user's inventory
 			        int quantity = userInventory.getOrDefault("torch", 0);
 			        userInventory.put("torch", quantity + 1);
-
-			        // Remove the item from the store inventory
-			        quantity = storeInventory.get("torch");
-			        if (quantity > 1) {
-			          storeInventory.put("torch", quantity - 1);
-			        } else {
-			          storeInventory.remove("torch");
-			        }
 					dabloonWallet -= 40;
 				}
-				else if(parsedAnswer == 4 && storeInventory.containsKey("blanket")) {
+				else if(parsedAnswer == 4 ) {
 					System.out.println("\nBlanket is added to inventory.");
 					// Add the item to the user's inventory
 			        int quantity = userInventory.getOrDefault("blanket", 0);
 			        userInventory.put("blanket", quantity + 1);
-
-			        // Remove the item from the store inventory
-			        quantity = storeInventory.get("blanket");
-			        if (quantity > 1) {
-			          storeInventory.put("blanket", quantity - 1);
-			        } else {
-			          storeInventory.remove("blanket");
-			        }
 					dabloonWallet -= 80;
 				}
-				else if(parsedAnswer == 5 && storeInventory.containsKey("tent")) {
+				else if(parsedAnswer == 5 ) {
 					System.out.println("\nTent is added to inventory.");
 					// Add the item to the user's inventory
 			        int quantity = userInventory.getOrDefault("tent", 0);
 			        userInventory.put("tent", quantity + 1);
-
-			        // Remove the item from the store inventory
-			        quantity = storeInventory.get("tent");
-			        if (quantity > 1) {
-			          storeInventory.put("tent", quantity - 1);
-			        } else {
-			          storeInventory.remove("tent");
-			        }
 					dabloonWallet -= 200;
 				}
 				else {
 					System.out.println("You left the shop.");
-					buy = false;
+					isBuying = false;
 				}
-			}return dabloonWallet;
+			}
+			return dabloonWallet;
 		}
 	}
-	
-	 public static String getName()   
-     {  
-         return name;  
-     }  
-
-	public static void setName(String n) {
-		name = n;
-	}
-
-	public int RandomDabloons(int dabloonWallet) {
-
-		Random rand = new Random(); 
-		startingDabloons = rand.nextInt(1, 100); 
-		System.out.println("Here have this "+ startingDabloons + " dabloons to start your journey.");
-		dabloonWallet += startingDabloons;
-		return dabloonWallet;	
-
-	}
-
-
 }
+
