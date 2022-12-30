@@ -1,58 +1,75 @@
-package project;
+package cmsc22.final_project;
 
 import java.util.Scanner;
 import java.util.Random;
 
-
-
-
-
-
+/**
+* The Encounters class represents the abstract parent class for the DabloonGame class. 
+* It defines methods and fields that are used to simulate random events that the player can encounter during their travels in the DabloonGame.
+*/
 abstract class Encounters {
-	
+	// Instantiated fields
+	private static final int MAX_TASK = 7;
     private static Scanner scan = new Scanner(System.in);
-	protected int itemNum;
-	
-	public int answerParser (String answer) {
+
+    
+    /**
+	 * Parses a user's input string as an integer, and returns the integer value if the string is a valid number.
+	 * If the string is not a valid number, the method prints an error message to the console and returns a default value of 4.
+	 *
+	 * @param answer the user's input string to be parsed as an integer
+	 * @return the integer value of the input string, or a default value of 4 if the string is not a valid number
+	 */
+	public int parseAnswer (String answer) {
 		try {
-			  int num = Integer.parseInt(answer);
-			  return num;
+			    int num = Integer.parseInt(answer);
+			    return num;
 			} catch (NumberFormatException e) {
-			  System.out.println("Invalid number format");
-			  return 4;
+			    System.out.println("Invalid number format");
+			    return 4;
 			}
 	}
 	
-	public int randomizer(int dabloonWallet, int maxTaskNum) {
+	/**
+	* Generates a random task number between 1 and the given maximum task number, 
+	* or the maximum task number if the player's dabloons are less than 100 and the random number is 6.
+	* 
+	* @param dabloonWallet the current number of dabloons that the player has
+	* @param maxTaskNum the maximum number of tasks that can be generated
+	* @return the task number
+	*/
+	public int randomizeNumber(int dabloonWallet, int maxTaskNum) {
 		Random task = new Random(); 
 		int taskNum = task.nextInt(maxTaskNum)+1;
-		System.out.println("taskNum is "+taskNum);
 		if (dabloonWallet < 100 && taskNum == 6) {
-
 			return maxTaskNum;
 		}else {
-
 			return taskNum;
 		}
-		
 	}
 
-	
-	public int task(int dabloonWallet){
-		int maxTaskNum = 7;
-		int taskNum = randomizer(dabloonWallet, maxTaskNum);
+	/**
+	* The simulateTask method is used to simulate random tasks that the player can encounter while travelling. 
+	* Based on a random generated number, a specific task is chosen and the player is asked to accept or decline it. 
+	* If the player accepts, their dabloon wallet is updated (reward system). The method returns the updated dabloon wallet.
+	* 
+	* @param dabloonWallet the current number of dabloons the player has
+	* @return the updated dabloon wallet after the task is completed
+	*/
+	public int simulateTask(int dabloonWallet){
+		int taskNumber = randomizeNumber(dabloonWallet, MAX_TASK);
 
-		if(taskNum == 1) {//task1
-			System.out.println("\n########################################################################################");
-			System.out.println("An elderly cat is asking for your assistance to carry his luggage...");
-			System.out.println("Help the elderly cat?");
-			System.out.println("\n(Enter 1 to help, any other key to decline)");
+		if(taskNumber == 1) {//task1
+		    System.out.println("\n########################################################################################"
+		    		+ "\nAn elderly cat is asking for your assistance to carry his luggage..."
+		    		+ "\nHelp the elderly cat?"
+		    		+ "\n(Enter 1 to help, any other key to decline)");
 			String answer = scan.nextLine();
-			int parsedAnswer = answerParser(answer);
+			int parsedAnswer = parseAnswer(answer);
 
 			if(parsedAnswer == 1) {
-				System.out.println("\nYou have accepted the offer!");
-				System.out.println("Elder Cat: Thank you for helping, here take this 70 dabloons.");
+			    System.out.println("\nYou have accepted the offer!"
+			    		+ "\nElder Cat: Thank you for helping, here take this 70 dabloons.");
 				dabloonWallet += 70;
 				System.out.println("Dabloons after accepting offer: " + dabloonWallet);
 			}
@@ -60,117 +77,114 @@ abstract class Encounters {
 				System.out.println("\nOffer declined.");
 			}
 		}
-		else if (taskNum == 2) {//task2
-			System.out.println("\n########################################################################################");
-			System.out.println("Encountered a NPC cat!");
-			System.out.println("NPC cat is asking for your assistance to deliver letters to the village...");
-			System.out.println("Accept task?");
-			System.out.println("\n(Enter 1 to accept, any other key to decline)");
+		else if (taskNumber == 2) {
+			System.out.println("\n########################################################################################"
+					+ "\nEncountered a NPC cat!"
+					+ "\nNPC cat is asking for your assistance to deliver letters to the village..."
+					+ "\nAccept task?"
+					+ "\n(Enter 1 to accept, any other key to decline)");
 			String answer = scan.nextLine();
-			int parsedAnswer = answerParser(answer);
+			int parsedAnswer = parseAnswer(answer);
 
 			if(parsedAnswer == 1) {
-				System.out.println("\nNPC Cat: Thanks for helping! ");
-				System.out.println("NPC Cat: I'll pay you 100 dabloons. ");
+			    System.out.println("\nNPC Cat: Thanks for helping! "
+						+ "\nNPC Cat: I'll pay you 100 dabloons. ");
 				dabloonWallet += 100;
 				System.out.println("Dabloons after accepting offer: " + dabloonWallet);
 			}
 			else {
 				System.out.println("\nOffer declined.");
-
 			}
 		}
-		else if(taskNum == 3) {
-			System.out.println("\n########################################################################################");
-			System.out.println("Lost NPC is asking for directions!");
-			System.out.println("Help NPC?");
-			System.out.println("\n(Enter 1 to help, any other key to decline)");
+		else if(taskNumber == 3) {
+			System.out.println("\n########################################################################################"
+					+ "\nLost NPC is asking for directions!"
+					+ "\nHelp NPC?"
+					+ "\n(Enter 1 to help, any other key to decline)");
 			String answer = scan.nextLine();
-			int parsedAnswer = answerParser(answer);
+			int parsedAnswer = parseAnswer(answer);
 
 			if(parsedAnswer == 1) {
-				System.out.println("\nYou gave directions for free.");
-				System.out.println("NPC: Thank you! Be careful on your journey...");
+				System.out.println("\nYou gave directions for free."
+						+ "\nNPC: Thank you! Be careful on your journey...");
 			}
 			else {
 				System.out.println("\nOffer declined.");
 			}
 		}
-		else if(taskNum == 4) {
-			System.out.println("\n########################################################################################");
-			System.out.println("NPC offering Hot Soup!");
-			System.out.println("Accept offer?");
-			System.out.println("\n(Enter 1 to accept, any other key to decline)");
+		else if(taskNumber == 4) {
+			System.out.println("\n########################################################################################"
+					+ "\nNPC offering Hot Soup!"
+					+ "\nAccept offer?"
+					+ "\n(Enter 1 to accept, any other key to decline)");
 			String answer = scan.nextLine();
-			int parsedAnswer = answerParser(answer);
+			int parsedAnswer = parseAnswer(answer);
 
 			if(parsedAnswer == 1) {
-				System.out.println("\nSoup accepted.");
-				System.out.println("NPC gave you 200 dabloons");
+				System.out.println("\nSoup accepted."
+						+ "\nNPC gave you 200 dabloons");
 				dabloonWallet += 200;
 			}
 			else {
 				System.out.println("\nSoup declined.");
 			}
 		}
-		else if(taskNum == 5) {
-			System.out.println("\n########################################################################################");
-			System.out.println("NPC offering Bread!");
-			System.out.println("Accept offer?");
-			System.out.println("\n(Enter 1 to accept, any other key to decline)");
+		else if(taskNumber == 5) {
+			System.out.println("\n########################################################################################"
+					+ "\nNPC offering Bread!"
+					+ "\nAccept offer?"
+					+ "\n(Enter 1 to accept, any other key to decline)");
 			String answer = scan.nextLine();
-			int parsedAnswer = answerParser(answer);
+			int parsedAnswer = parseAnswer(answer);
 
 			if(parsedAnswer == 1) {
-				System.out.println("\nBread accepted.");
+			    System.out.println("\nBread accepted.");
 			}
 			else {
 				System.out.println("\nBread declined.");
 			}
 		}
-		else if(taskNum == 6) {
-			System.out.println("\n########################################################################################");
-			System.out.println("Inn Owner: Hey, it's getting quite cold outside.");
-			System.out.println("Inn Owner: Stay in my Inn?");
-			System.out.println("Staying in Inn costs 100 dabloons.");
-			System.out.println("\n(Enter 1 to stay, any other key to decline)");
+		else if(taskNumber == 6) {
+			System.out.println("\n########################################################################################"
+					+ "\nInn Owner: Hey, it's getting quite cold outside."
+					+ "\nInn Owner: Stay in my Inn?"
+					+ "\nStaying in Inn costs 100 dabloons."
+					+ "\n(Enter 1 to stay, any other key to decline)");
 			String answer = scan.nextLine();
-			int parsedAnswer = answerParser(answer);
+			int parsedAnswer = parseAnswer(answer);
 
 			if(parsedAnswer == 1) {
-				System.out.println("\nStaying in the Inn.");
 				dabloonWallet -= 100;
-				System.out.println("Dabloons after accepting offer: " + dabloonWallet);
+			    System.out.println("\nStaying in the Inn."
+						+ "\nDabloons after accepting offer: " + dabloonWallet);
 
 			}
 			else {
 				System.out.println("\nOffer declined.");
 			}
 		}
-		else if(taskNum == 7) {
-			System.out.println("\n########################################################################################");
-			System.out.println("You found an empty cabin!");
-			System.out.println("Enter cabin?");
-			System.out.println("\n(Enter 1 to enter, any other key to decline)");
+		else if(taskNumber == 7) {
+			System.out.println("\n########################################################################################"
+					+ "\nYou found an empty cabin!"
+					+ "\nEnter cabin?"
+					+ "\n(Enter 1 to enter, any other key to decline)");
 			String answer = scan.nextLine();
-			int parsedAnswer = answerParser(answer);
+			int parsedAnswer = parseAnswer(answer);
 
 			if(parsedAnswer == 1) {
-				System.out.println("\nEntered cabin.");
-				System.out.println("You found 500 dabloons in the cabin!");
+				System.out.println("\nEntered cabin."
+						+ "\nYou found 500 dabloons in the cabin!");
 				dabloonWallet += 500;
 			}
 			else {
 				System.out.println("\nOffer declined.");
 			}
 		}
+		else {
+			/* falls through */
+		}
 		return dabloonWallet;
-
 	}
-
-
-	
-
 }
 
 
