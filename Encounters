@@ -1,5 +1,4 @@
 package cmsc22.final_project;
-
 import java.util.Scanner;
 import java.util.Random;
 
