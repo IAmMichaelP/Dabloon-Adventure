@@ -7,7 +7,7 @@ import java.util.HashMap;
 /**
  * The Traveller class represents the user in the game. 
  * It has methods for managing the user's dabloons and inventory, and for interacting with the game, 
- * and because of that, the inner class Merchant was appended in the Traveller class.
+ * and because of that, the inner class Merchant was appended in the Traveller class. Edited for test web 126
  */
 public class Traveller{	
 	// Instantiated fields
