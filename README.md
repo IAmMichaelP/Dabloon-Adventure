@@ -1,0 +1,1 @@
+Dabloon Game is a text-based adventure game where the player travels through different locations and encounters random events. The player can make choices and the game updates the player's inventory and dabloon wallet accordingly.
